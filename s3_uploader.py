@@ -14,6 +14,9 @@ def upload_file_to_s3(s3_client, bucket, file, bucket_key, acl):
     """
     try:
         guessed_mime_type = mimetypes.guess_type(file)
+        if guessed_mime_type[0] is None:
+            guessed_mime_type = 'application/octet-stream'
+
         s3_client.put_object(
             ACL=acl,
             Body=open(file, 'rb'),
